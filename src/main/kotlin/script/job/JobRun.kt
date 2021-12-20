@@ -4,9 +4,8 @@ import busyJob
 import kotlinx.coroutines.*
 import sliceInTo
 
-
-fun runBusyJob(numberOfCoroutine: Int): Int {
-    var sum = 0
+fun runBusyJob(numberOfCoroutine: Int): Long {
+    var sum : Long = 0
     sliceInTo(numberOfCoroutine).forEach { (s, e) ->
         sum += busyJob(s, e)
     }
@@ -14,14 +13,14 @@ fun runBusyJob(numberOfCoroutine: Int): Int {
     return sum
 }
 
-fun runBusyJobWithCoroutine(numberOfCoroutine: Int) : Int {
-    var sum = 0
+fun runBusyJobWithCoroutine(numberOfCoroutine: Int) : Long {
+    var sum : Long = 0
     runBlocking {
         sliceInTo(numberOfCoroutine).forEachIndexed { i, (s, e) ->
             launch {
-                println("${Thread.currentThread()}: JOB $i START")
+                println("${Thread.currentThread()}: JOB ${i + 1} START")
                 sum += busyJob(s, e)
-                println("${Thread.currentThread()}: JOB $i END")
+                println("${Thread.currentThread()}: JOB ${i + 1} END")
             }
         }
     }
@@ -32,14 +31,14 @@ fun runBusyJobWithCoroutine(numberOfCoroutine: Int) : Int {
 fun runBusyJobWithCoroutine(
     numberOfCoroutine: Int,
     threadContext: ExecutorCoroutineDispatcher
-) : Int {
-    var sum = 0
+) : Long {
+    var sum : Long = 0
     runBlocking {
         sliceInTo(numberOfCoroutine).forEachIndexed { i, (s, e) ->
             launch(threadContext) {
-                println("${Thread.currentThread()}: JOB $i START")
+                println("${Thread.currentThread()}: JOB $${i + 1} START")
                 sum += busyJob(s, e)
-                println("${Thread.currentThread()}: JOB $i END")
+                println("${Thread.currentThread()}: JOB $${i + 1} END")
             }
         }
     }
