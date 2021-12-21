@@ -3,6 +3,7 @@ package script.job
 import busyJob
 import kotlinx.coroutines.*
 import sliceInTo
+import java.util.concurrent.atomic.AtomicLong
 
 fun runBusyJob(numberOfCoroutine: Int): Long {
     var sum : Long = 0
@@ -13,7 +14,7 @@ fun runBusyJob(numberOfCoroutine: Int): Long {
     return sum
 }
 
-fun runBusyJobWithCoroutine(numberOfCoroutine: Int) : Long {
+fun runBusyJobWithMultiThread(numberOfCoroutine: Int) : Long {
     var sum : Long = 0
     runBlocking {
         sliceInTo(numberOfCoroutine).forEachIndexed { i, (s, e) ->
@@ -28,17 +29,17 @@ fun runBusyJobWithCoroutine(numberOfCoroutine: Int) : Long {
     return sum
 }
 
-fun runBusyJobWithCoroutine(
+fun runBusyJobWithMultiThread(
     numberOfCoroutine: Int,
     threadContext: ExecutorCoroutineDispatcher
-) : Long {
-    var sum : Long = 0
+) : AtomicLong {
+    var sum = AtomicLong()
     runBlocking {
         sliceInTo(numberOfCoroutine).forEachIndexed { i, (s, e) ->
             launch(threadContext) {
-                println("${Thread.currentThread()}: JOB $${i + 1} START")
-                sum += busyJob(s, e)
-                println("${Thread.currentThread()}: JOB $${i + 1} END")
+//                println("${Thread.currentThread()}: JOB ${i + 1} START")
+                sum.getAndAdd(busyJob(s,e))
+//                println("${Thread.currentThread()}: JOB ${i + 1} END")
             }
         }
     }

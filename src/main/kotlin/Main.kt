@@ -1,6 +1,5 @@
-import kotlinx.coroutines.*
 import script.job.runBusyJob
-import script.job.runBusyJobWithCoroutine
+import script.job.runBusyJobWithMultiThread
 import script.log.printAllThreads
 import script.log.printSpendTime
 
@@ -27,13 +26,13 @@ fun main(args: Array<String>) {
                     runBusyJob(2)
                 } else {
                     // 1 스레드 N 코루틴
-                    runBusyJobWithCoroutine(coroutineCount)
+                    runBusyJobWithMultiThread(coroutineCount)
                 }
             } else  {
                 // 멀티 스레드 1~N 코루틴
-                runBusyJobWithCoroutine(coroutineCount, threadPoolContext)
+                runBusyJobWithMultiThread(coroutineCount, threadPoolContext)
             }
         }
-        printAllThreads()
     }
+    printAllThreads()
 }
