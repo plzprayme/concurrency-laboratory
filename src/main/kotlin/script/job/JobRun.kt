@@ -37,9 +37,9 @@ fun runBusyJobWithMultiThread(
     runBlocking {
         sliceInTo(numberOfCoroutine).forEachIndexed { i, (s, e) ->
             launch(threadContext) {
-                println("${Thread.currentThread()}: JOB ${i + 1} START")
+//                println("${Thread.currentThread()}: JOB ${i + 1} START")
                 sum.getAndAdd(busyJob(s,e))
-                println("${Thread.currentThread()}: JOB ${i + 1} END")
+//                println("${Thread.currentThread()}: JOB ${i + 1} END")
             }
         }
     }
