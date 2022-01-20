@@ -1,3 +1,3 @@
-FROM eclipse-temurin:17-jre-alpine
-COPY ./build/libs ~/application.jar
-CMD ["java", "-jar", "~/application.jar"]
+FROM eclipse-temurin:17.0.1_12-jre-alpine
+COPY ../build/libs/concurrency-laboratory-1.0-SNAPSHOT.jar /application.jar
+CMD ["java", "-jar", "/application.jar"]
