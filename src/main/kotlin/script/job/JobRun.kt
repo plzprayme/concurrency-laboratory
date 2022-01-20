@@ -5,34 +5,34 @@ import kotlinx.coroutines.*
 import sliceInTo
 import java.util.concurrent.atomic.AtomicLong
 
-fun runBusyJob(numberOfCoroutine: Int): Long {
+fun runBusyJob(numberOfCoroutine: Int): Unit {
     var sum : Long = 0
     sliceInTo(numberOfCoroutine).forEach { (s, e) ->
         sum += busyJob(s, e)
     }
-    println("1 THREAD RESULT: $sum")
-    return sum
+//    println("1 THREAD RESULT: $sum")
+//    return sum
 }
 
-fun runBusyJobWithMultiThread(numberOfCoroutine: Int) : Long {
+fun runBusyJobWithMultiThread(numberOfCoroutine: Int) : Unit {
     var sum : Long = 0
     runBlocking {
         sliceInTo(numberOfCoroutine).forEachIndexed { i, (s, e) ->
             launch {
-                println("${Thread.currentThread()}: JOB ${i + 1} START")
+//                println("${Thread.currentThread()}: JOB ${i + 1} START")
                 sum += busyJob(s, e)
-                println("${Thread.currentThread()}: JOB ${i + 1} END")
+//                println("${Thread.currentThread()}: JOB ${i + 1} END")
             }
         }
     }
-    println("1 THREAD RESULT $numberOfCoroutine COROUTINE RESULT: $sum")
-    return sum
+//    println("1 THREAD RESULT $numberOfCoroutine COROUTINE RESULT: $sum")
+//    return sum
 }
 
 fun runBusyJobWithMultiThread(
     numberOfCoroutine: Int,
     threadContext: ExecutorCoroutineDispatcher
-) : AtomicLong {
+) : Unit {
     var sum = AtomicLong()
     runBlocking {
         sliceInTo(numberOfCoroutine).forEachIndexed { i, (s, e) ->
@@ -43,6 +43,6 @@ fun runBusyJobWithMultiThread(
             }
         }
     }
-    println("1 THREAD RESULT $numberOfCoroutine COROUTINE RESULT: $sum")
-    return sum
+//    println("1 THREAD RESULT $numberOfCoroutine COROUTINE RESULT: $sum")
+//    return sum
 }
